@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -68,3 +69,17 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+=======
+Welcome to RestockerAI!
+
+The goal of this AI is to identify pantry items from a picture and be able to keep count 
+of them for you. It is made with PyTorch and running with a couple of convolution layers to 
+extract features from the training dataset. It then sends a flattened outout of parameters 
+through a linear layer to classify the item in the picture.
+
+Contributors:
+Nicolas Brizuela
+Andres Fernandez Exposito
+Seonghwan Oh
+Patrick Onyemah
+>>>>>>> b82e802392ae01c43077f1ddb52dbaa42fdd323e
