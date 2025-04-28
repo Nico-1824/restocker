@@ -1,85 +1,82 @@
-<<<<<<< HEAD
-# Getting Started with Create React App
+# Restocker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Restocker is a food inventory management application that uses computer vision to automatically identify fruits and vegetables. Take photos, get instant identification, and manage your inventory efficiently.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Camera capture for adding items to inventory
+- Automatic food item recognition using a PyTorch deep learning model
+- Clean, mobile-friendly user interface
+- Inventory management
 
-### `npm start`
+## Setup and Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Prerequisites
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Node.js (v14 or newer)
+- Python 3.8+
+- pip (Python package manager)
+- Git
 
-### `npm test`
+### Installation Steps
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clone the repository
+   ```bash
+   git clone https://github.com/Nico-1824/restocker
+   cd restocker
+   ```
 
-### `npm run build`
+2. Install frontend dependencies
+   ```bash
+   npm install
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. Install Python backend dependencies
+   ```bash
+   pip install flask flask-cors torch torchvision pillow
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Running the Application
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Start the backend server
+   ```bash
+   python server.py
+   ```
+   The server will start on port 5001.
 
-### `npm run eject`
+2. In a new terminal, start the React frontend
+   ```bash
+   npm start
+   ```
+   The application will open in your browser at http://localhost:3000.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Using the Application
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Home Page**: Navigate between features and see overview information
+- **Camera Page**: Click the camera icon to take photos of your food items
+- **Inventory Page**: View your inventory and click "Identify Item" to use the AI model to recognize each item
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Project Structure
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- **src/**: React frontend code
+  - **/pages**: Main application pages
+  - **/components**: Reusable React components
+- **model/**: PyTorch model and related files
+  - **model.pth**: Trained model weights
+  - **Restocker.py**: Model architecture definition
+- **server.py**: Flask backend for serving the PyTorch model
 
-## Learn More
+## Troubleshooting
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- If you encounter CORS issues, make sure both the frontend and backend are running
+- If the model isn't loading, check that the path to model.pth is correct
+- If identification doesn't work, ensure images are correctly formatted (PNG/JPEG) and are clear photos of food items
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## License
 
-### Code Splitting
+MIT
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Acknowledgements
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
-Welcome to RestockerAI!
-
-The goal of this AI is to identify pantry items from a picture and be able to keep count 
-of them for you. It is made with PyTorch and running with a couple of convolution layers to 
-extract features from the training dataset. It then sends a flattened outout of parameters 
-through a linear layer to classify the item in the picture.
-
-Contributors:
-Nicolas Brizuela
-Andres Fernandez Exposito
-Seonghwan Oh
-Patrick Onyemah
->>>>>>> b82e802392ae01c43077f1ddb52dbaa42fdd323e
+- The model was trained on a dataset of common fruits and vegetables
+- Built with React, Flask, and PyTorch
