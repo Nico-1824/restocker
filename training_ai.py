@@ -2,8 +2,7 @@ import torch
 from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
-from torchvision.transforms import ToTensor
-from torch.optim.lr_scheduler import CosineAnnealingLR
+from torch.optim.lr_scheduler import StepLR
 from Restocker import Restocker
 from val_ai import val
 import matplotlib.pyplot as plt
@@ -37,9 +36,9 @@ model.to(device)
 
 #Loss Function
 loss_fn = nn.CrossEntropyLoss(label_smoothing=0.1)
-lr = 3e-3
-optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=1e-4)
-scheduler = CosineAnnealingLR(optimizer, T_max=50, eta_min=1e-5)
+lr = 1e-3
+optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=1e-3)
+scheduler = StepLR(optimizer, step_size=8, gamma=0.1)
 
 
 train_losses = [] #Used to plot loss graph and visualize loss
@@ -63,7 +62,7 @@ def train(dataloader, model, loss_fn, optimizer):
         optimizer.zero_grad()
         curr_loss, current = loss.item(), (batch + 1) * len(X)
 
-        if batch % 10 == 0:
+        if batch % 3 == 0:
             print(f'loss: {curr_loss:>7f}  [{current:>5d}/{size:>5d}]   LR: {optimizer.param_groups[0]['lr']}')
 
         running_loss += loss.item()
@@ -91,7 +90,7 @@ for t in range(epochs):
         break
     prev_loss = val_loss
 
-    scheduler.step(val_loss)
+    scheduler.step()
     val_losses.append(val_loss)
     acc.append(accuracy)
     if accuracy > 90:

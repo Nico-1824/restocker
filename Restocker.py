@@ -7,9 +7,9 @@ class Restocker(nn.Module):
         super().__init__()
         #layering goes here for the convolution stack
         self.conv_stack = nn.Sequential(
-            nn.Conv2d(3, 32, kernel_size=3, padding=1), #Looking for features with 16 filters
+            nn.Conv2d(3, 32, kernel_size=3, padding=1),
             nn.BatchNorm2d(32),
-            nn.ReLU(), #Relu
+            nn.ReLU(), #Relu -> 32 x 3 x 3 x 3
 
             nn.Conv2d(32, 64, kernel_size=3, padding=1), #32x64x64
             nn.BatchNorm2d(64),
@@ -20,10 +20,10 @@ class Restocker(nn.Module):
             nn.BatchNorm2d(128),
             nn.ReLU(),
 
-            nn.Conv2d(128, 256, kernel_size=3, padding=1), 
-            nn.BatchNorm2d(256),
-            nn.ReLU(),
-            nn.MaxPool2d(2)
+            # nn.Conv2d(128, 256, kernel_size=3, padding=1), 
+            # nn.BatchNorm2d(256),
+            # nn.ReLU(),
+            # nn.MaxPool2d(2)
             
         )
          #finds the size of the flattened output from the convolution step
@@ -36,12 +36,12 @@ class Restocker(nn.Module):
 
         #Linear classification stack
         self.linear_relu_stack = nn.Sequential(
-            nn.Linear(self.flattened_size, 1024),
-            nn.BatchNorm1d(1024),
-            nn.ReLU(),
+            nn.Linear(self.flattened_size, 512), #was 1024
+            nn.BatchNorm1d(512),
+            nn.LeakyReLU(0.01),
             nn.Dropout(0.4),
 
-            nn.Linear(1024, 256),
+            nn.Linear(512, 256),
             nn.BatchNorm1d(256),
             nn.ReLU(),
 
