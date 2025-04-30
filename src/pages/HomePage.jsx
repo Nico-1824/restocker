@@ -4,12 +4,11 @@ import { Link } from "react-router-dom";
 const HomePage = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 text-center px-4 animate-fadeIn">
-      {/* Logo or icon (optional) */}
-      <img
-        src="/vite.svg"
+      {/* <img
+        src="/logo.svg"
         alt="RestockerAI Logo"
         className="w-20 mb-6"
-      />
+      /> */}
 
       <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
         Welcome to RestockerAI
