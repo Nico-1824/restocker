@@ -12,7 +12,7 @@ training_transform = transforms.Compose([
     transforms.Resize((128, 128)),
     transforms.RandomHorizontalFlip(),
     transforms.RandomRotation(10),
-    transforms.ColorJitter(brightness=0.1, contrast=0.1),
+    transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2),
     transforms.ToTensor()
 ])
 
@@ -62,8 +62,8 @@ def train(dataloader, model, loss_fn, optimizer):
         optimizer.zero_grad()
         curr_loss, current = loss.item(), (batch + 1) * len(X)
 
-        if batch % 3 == 0:
-            print(f'loss: {curr_loss:>7f}  [{current:>5d}/{size:>5d}]   LR: {optimizer.param_groups[0]['lr']}')
+        if batch % 5 == 0:
+            print(f'loss: {curr_loss:>7f}  [{current:>5d}/{size:>5d}]')
 
         running_loss += loss.item()
     avg_loss = running_loss / len(dataloader)
@@ -71,14 +71,15 @@ def train(dataloader, model, loss_fn, optimizer):
 
 
 #Training loop
-epochs = 50
+epochs = 100
 prev_loss = 0
 plateu_counter = 0
 
 for t in range(epochs):
     print(f"Epoch {t+1}\n-------------------------------")
     train(train_loader, model, loss_fn, optimizer)
-    val_loss, accuracy = val(val_loader, model, loss_fn)
+    with torch.no_grad():
+        val_loss, accuracy = val(val_loader, model, loss_fn)
 
     #Early stopping
     if abs(prev_loss - val_loss) < 0.01:
