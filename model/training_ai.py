@@ -3,24 +3,28 @@ from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torchvision.transforms import ToTensor
+from torch.optim.lr_scheduler import StepLR
 from Restocker import Restocker
 from testing_ai import test
 import matplotlib.pyplot as plt
 
 transform = transforms.Compose([
     transforms.Resize((128, 128)),
+    transforms.ColorJitter(brightness=0.2, contrast=0.2),
+    transforms.RandomHorizontalFlip(0.1),
     transforms.ToTensor()
 ])
 
 train_dataset = datasets.ImageFolder(root="archive/train", transform=transform)
-train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
 test_dataset = datasets.ImageFolder(root="archive/test", transform=transform)
-test_loader = DataLoader(test_dataset, batch_size=32)
+test_loader = DataLoader(test_dataset, batch_size=64)
 
 model = Restocker()
 
 loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+scheduler = StepLR(optimizer, step_size=10, gamma=0.1)
 
 
 train_losses = [] #Used to plot loss graph and visualize loss
@@ -52,12 +56,13 @@ def train(dataloader, model, loss_fn, optimizer):
 #First run of training and testing to see if the model is working 
 # properly and if it needs tweaking
 
-epochs = 15
+epochs = 25
 for t in range(epochs):
     print(f"Epoch {t+1}\n-------------------------------")
     train(train_loader, model, loss_fn, optimizer)
     val_loss, accuracy = test(test_loader, model, loss_fn)
     val_losses.append(val_loss)
+    scheduler.step()
     if accuracy > 95:
         break
 
