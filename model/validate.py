@@ -3,6 +3,7 @@ import torch
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from Restocker import Restocker
+from PIL import Image
 import random
 
 model = Restocker().to('cpu')

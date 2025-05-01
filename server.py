@@ -7,7 +7,7 @@ import base64
 from io import BytesIO
 import sys
 sys.path.append('./model')
-from Restocker import Restocker
+from model.Restocker import Restocker
 
 app = Flask(__name__)
 
