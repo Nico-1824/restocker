@@ -7,26 +7,55 @@ from Restocker import Restocker
 from val_ai import val
 import matplotlib.pyplot as plt
 
+#Z Score Normalization = xi - mean / std ONLY RUN IF NEW DATA ADDED TO DATASET
+# temp_transform = transforms.Compose([
+#     transforms.Resize((128, 128)),
+#     transforms.ToTensor()
+# ])
+
+# temp_dataset = train_dataset = datasets.ImageFolder(root="archive (1)/train", transform=temp_transform)
+# temp_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+
+# mean = 0.
+# std = 0.
+# num_samples = 0.
+
+# for data, _ in temp_loader:
+#     batch_samples = data.size(0)
+#     data = data.view(batch_samples, data.size(1), -1)
+#     mean += data.mean(2).sum(0)
+#     std += data.std(2).sum(0)
+#     num_samples += batch_samples
+
+# mean /= num_samples
+# std /= num_samples
+
+# print(mean, std)
+
 #Data Augmentation and Tranformations to fit training
 training_transform = transforms.Compose([
     transforms.Resize((128, 128)),
     transforms.RandomHorizontalFlip(),
     transforms.RandomRotation(10),
     transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2),
-    transforms.ToTensor()
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.6137, 0.5516, 0.3981], std=[0.2211, 0.2228, 0.2402])
 ])
 
+
+
 val_transform = transforms.Compose([
-    transforms.Resize((128,128)),
-    transforms.ToTensor()
+    transforms.Resize((128, 128)),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.6137, 0.5516, 0.3981], std=[0.2211, 0.2228, 0.2402])
 ])
 
 #Laoding dataset and applying transformations
 train_dataset = datasets.ImageFolder(root="archive (1)/train", transform=training_transform)
-train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True)
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
 
 val_dataset = datasets.ImageFolder(root="archive (1)/validation", transform=val_transform)
-val_loader = DataLoader(val_dataset, batch_size=128)
+val_loader = DataLoader(val_dataset, batch_size=32)
 
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 
@@ -62,7 +91,7 @@ def train(dataloader, model, loss_fn, optimizer):
         optimizer.zero_grad()
         curr_loss, current = loss.item(), (batch + 1) * len(X)
 
-        if batch % 5 == 0:
+        if batch % 10 == 0:
             print(f'loss: {curr_loss:>7f}  [{current:>5d}/{size:>5d}]')
 
         running_loss += loss.item()
