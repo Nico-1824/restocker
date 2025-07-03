@@ -36,17 +36,19 @@ class Restocker(nn.Module):
 
         #Linear classification stack
         self.linear_relu_stack = nn.Sequential(
-            # nn.Linear(self.flattened_size, 512), #was 1024
-            # nn.BatchNorm1d(512),
-            # nn.LeakyReLU(0.01),
-            # nn.Dropout(0.4),
+            nn.Linear(self.flattened_size, 512), #was 1024
+            nn.BatchNorm1d(512),
+            nn.LeakyReLU(0.01),
+            nn.MaxPool2d(2),
+            nn.Dropout(0.2),
 
-            nn.Linear(self.flattened_size, 256),
+            nn.Linear(512, 256),
             nn.BatchNorm1d(256),
             nn.ReLU(),
 
             nn.Linear(256, 128),
             nn.ReLU(),
+            nn.MaxPool2d(2),
             nn.Dropout(0.2),
 
             nn.Linear(128, 52),
